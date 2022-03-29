@@ -5,8 +5,14 @@ var playerMoney = 100;
 
 
 var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
-var enemyHealth = 50;
+var enemyHealth = 50
 var enemyAttack = 12;
+
+var randomNumber = function (min, max) {
+  var value = Math.floor(Math.random() * (max - min + 1)) + min;
+
+  return value;
+};
 
 var fight = function (enemyName) {
   // repeat and execute as long as the enemy-robot is alive 
@@ -21,13 +27,16 @@ var fight = function (enemyName) {
       if (confirmSkip) {
         window.alert(playerName + " has decided to skip this fight. Goodbye!");
         // subtract money from playerMoney for skipping
-        playerMoney = playerMoney - 10;
+        playerMoney = Math.max(0, playerMoney - 10);
         console.log("playerMoney", playerMoney)
         break;
       }
     }
     // remove enemy's health by subtracting the amount set in the playerAttack variable
-    enemyHealth = enemyHealth - playerAttack;
+    var damage = randomNumber(playerAttack - 3, playerAttack);
+
+    enemyHealth = Math.max(0, enemyHealth - damage);
+    
     console.log(
       playerName + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.'
     );
@@ -57,7 +66,7 @@ var fight = function (enemyName) {
     } else {
       window.alert(playerName + " still has " + playerHealth + " health left.");
     }
-  } 
+  }
 };
 var startGame = function () {
   playerHealth = 100;
@@ -69,7 +78,7 @@ var startGame = function () {
       window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
 
       var pickedEnemyName = enemyNames[i];
-      enemyHealth = 50;
+      enemyHealth = randomNumber(40, 60);
 
       fight(pickedEnemyName);
 
@@ -115,7 +124,7 @@ var shop = function () {
     case "REFILL":
       if (playerMoney >= 7) {
         window.alert("Refilling player's health by 20 for 7 dollars.");
-    
+
         // increase health and decrease money
         playerHealth = playerHealth + 20;
         playerMoney = playerMoney - 7;
@@ -128,8 +137,8 @@ var shop = function () {
     case "UPGRADE":
       if (playerMoney >= 7) {
         window.alert("Upgrading player's attack by 6 for 7 dollars.");
-    
-       // increase attack and decrease money
+
+        // increase attack and decrease money
         playerAttack = playerAttack + 6;
         playerMoney = playerMoney - 7;
       }
